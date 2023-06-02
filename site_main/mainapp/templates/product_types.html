@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+    <h1>Список типов продуктов</h1>
+{% endblock %}
+
+{% block page_content %}
+    <table>
+        {% for pt in product_types %}
+            <tr>
+                <td>{{pt.name}}</td>
+                {% if request.user.is_authenticated %}
+                    <td><a href="{% url 'edit_product_type' pt.id %}">Изменить</a></td>
+                    {% if power_user %}
+                        <td><a href="{% url 'del_product_type' pt.id %}">Удалить</a></td>
+                    {% endif %}
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+    <br>
+    {% if request.user.is_authenticated %}
+        {% if power_user %}
+            <a href="{% url 'new_product_type' %}">Добавить тип продукта</a>
+        {% endif %}
+    {% endif %}
+{% endblock %}

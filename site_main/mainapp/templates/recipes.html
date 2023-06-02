@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+    <h1>Список рецептов</h1>
+{% endblock %}
+
+{% block page_content %}
+    <table>
+        {% for r in recipes %}
+            <tr>
+                <td>{{r.dish}}</td>
+                <td>{{r.product}}</td>
+                <td>{{r.quantity}}</td>
+                {% if request.user.is_authenticated %}
+                    <td><a href="{% url 'edit_recipe' r.id %}">Изменить</a></td>
+                    {% if power_user %}
+                        <td><a href="{% url 'del_recipe' r.id %}">Удалить</a></td>
+                    {% endif %}
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+    <br>
+    {% if request.user.is_authenticated %}
+        {% if power_user %}
+            <a href="{% url 'new_recipe' %}">Добавить рецепт</a>
+        {% endif %}
+    {% endif %}
+{% endblock %}
